@@ -1,0 +1,78 @@
+#!/bin/bash
+# Lock MySQL tables if the EBS Volume is running MySQL, Freeze the Volume, Snapshot the Volume
+
+source $(dirname $0)/../inc/ec2-include
+
+if [ ! $3 ]; then
+  echo "Usage: $(basename $0) MOUNT_POINT DB FREEZE TYPE DESCRIPTION"
+  echo
+  echo "      MOUNT_POINT - The mount location of the volume you wish to snapshot. (E.g. /ebs)"
+  echo "          DB_TYPE - The type of database on the EBS volume. Accepts 'mysql', 'mongodb' or 'none'."
+  echo "           FREEZE - Should this EBS volume be frozen before snapshotting (true/false)?"?
+  echo "                    You should never freeze the root filesystem."
+  echo "             TYPE - The 'type' of snapshot, which will be added as a tag to the snapshot. (optional)"
+  echo "      DESCRIPTION - A 'description' added as the description of the snapshot. (optional)"
+  exit
+fi
+
+DB_TYPE=$2
+FREEZE=$3
+# The reason we have a short description and a long description is because the short description is added as a tag and is therefore filterable in the AWS management console. The long description is added as the default description for the snapshot as snapshots have a description parameter.
+TYPE=$4
+DESCRIPTION=$5
+
+if ! type ec2-consistent-snapshot >/dev/null 2>&1; then
+  echo "Error: Cannot find 'ec2-consistent-snapshot'. Installation details can be found at"
+  echo "       http://alestic.com/2009/09/ec2-consistent-snapshot"
+  echo
+  exit 1
+fi
+
+# Check if the specified mount point exists
+if [ -d "$1" ]; then
+  # Unify mount point to ensure it will match the 'df' output
+  # For example ../mountpoint/ will become /mountpoint
+  MOUNT_POINT=$(cd "$1"; pwd)
+
+  # Find the device belonging to this mount point
+  echo "Locating device location of '$MOUNT_POINT'..."
+  DEVICE=( $(df $MOUNT_POINT | grep " $MOUNT_POINT") )
+  DEVICE=${DEVICE[0]}
+else
+  MOUNT_POINT=$1
+fi
+
+if [ ! $DEVICE ]; then
+  echo "Warning: '$MOUNT_POINT' isn't currently mounted."
+  echo "         Type 'df' to list currently mounted devices."
+  echo
+else
+  echo "Device location for '$MOUNT_POINT' is '$DEVICE'"
+  echo 
+
+  # Find the Volume ID of the device
+  echo "Locating EBS Volume ID..."
+  VOLUME_ID=( $(ec2-describe-volumes | grep "ATTACHMENT" | grep $INSTANCE_ID | grep /dev/sd${DEVICE: -2} | grep "attached") )
+  VOLUME_ID=${VOLUME_ID[1]}
+
+  if [ ! $VOLUME_ID ]; then
+    echo "Error: We couldn't associate '$DEVICE' with an EBS Volume. Please ensure the device exists. "
+    echo "       Type 'ec2-describe-volumes' to list attached EBS Volumes and their device locations."
+    exit
+  else
+    echo "Volume ID is '$VOLUME_ID'"
+    echo
+    echo "Snapshotting EBS Volume..."
+    REGION=${AVAILABILITY_ZONE%?}  # ec2-consistent-snapshot requires the Region rather than the Availability Zone so we remove the last character
+    if [ "$DB_TYPE" = "mysql" ]; then DB_ARGUMENT="--mysql"; fi
+    if [ "$FREEZE" = "true" ]; then FREEZE_ARGUMENT="--freeze-filesystem $MOUNT_POINT"; fi
+    if [ -z "$DESCRIPTION" ]; then DESCRIPTION="-"; fi
+    SNAPSHOT_ID=$(ec2-consistent-snapshot $DB_ARGUMENT $FREEZE_ARGUMENT --region $REGION --mysql-defaults-file /root/.my.cnf --aws-access-key-id-file /root/.ec2/access-key-id --aws-secret-access-key-file /root/.ec2/secret-access-key --description "$DESCRIPTION" $VOLUME_ID)
+    echo "Snapshot ID is '$SNAPSHOT_ID'"
+    echo
+
+    echo "Tagging snapshot..."
+    TAG_SERVER=( $(ec2-describe-tags | grep $VOLUME_ID | grep Server | cut -f5) )
+    ec2-create-tags $SNAPSHOT_ID --tag "Server=$TAG_SERVER" --tag "Mount point=$MOUNT_POINT" --tag "Type=$TYPE"
+  fi
+fi

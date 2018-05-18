@@ -1,6 +1,26 @@
 # _Amazon Web Services_ Helper Scripts
 A set of scripts designed to ease the pain of working with _Amazon Web Services_ (EC2 and S3). [Based on _Sean Bannister's_ original](https://github.com/SeanBannister/aws-helper-scripts).
 
+---
+
+`i-create-volume`
+
+>Create an EBS Volume
+>Then call i-attach-volume to Attach, Format and Persistently Mount the EBS Volume
+
+---
+
+`i-attach-volume`
+
+>Attach, Format and Persistently Mount an EBS Volume source $(dirname $0)/../inc/ec2-include
+
+---
+
+`ln-mv`
+
+>Move a directory to an EBS volume and symlink from the original location to the EBS location. If the EBS volume already contains the directory we're trying to move to it just delete the original directory and create a symlink.
+
+---
 
 # Credit
 
