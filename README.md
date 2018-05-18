@@ -1,6 +1,19 @@
 # _Amazon Web Services_ Helper Scripts
 A set of scripts designed to ease the pain of working with _Amazon Web Services_ (EC2 and S3). [Based on _Sean Bannister's_ original](https://github.com/SeanBannister/aws-helper-scripts).
 
+## :book: Getting Started
+
+The `awscli` that was included in your instance should be enough to get started.
+
+
+## :floppy_disk: Install and Usage
+
+Make a copy of the scripts and execute the appropriate one.
+
+```
+git clone https://github.com/stationgroup/aws-helper-scripts/
+```
+
 ---
 
 `i-create-volume`
@@ -21,7 +34,7 @@ Move a directory to an EBS volume and symlink from the original location to the 
 
 ---
 
-# Credit
+## Credit
 
 _[Based on _Sean Bannister's_ original](https://github.com/SeanBannister/aws-helper-scripts)._ 
 
