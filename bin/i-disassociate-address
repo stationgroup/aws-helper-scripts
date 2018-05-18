@@ -1,7 +1,0 @@
-#!/bin/bash
-# Disassociate the IP address from the instance.
-
-source $(dirname $0)/../inc/ec2-include
-
-echo "Disassociating IP ($IP) from instance..."
-ec2-disassociate-address $IP
