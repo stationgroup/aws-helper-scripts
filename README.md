@@ -18,6 +18,7 @@ git clone https://github.com/stationgroup/aws-helper-scripts/
 
 Change directories to the scripts: `cd aws-helper-scripts/bin`
 
+Example usage:
 ```bash
 aws-helper-scripts/bin/i-create-volume /dev/xvdf /ebs none 80
 ```
