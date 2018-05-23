@@ -35,10 +35,10 @@ fi
 
 echo "Creating EBS Volume..."
 # Place output into array so we can parse the Volume ID
-OUTPUT=( $(aws ec2 create-volume $SIZE_ARGUMENT --availability-zone $AVAILABILITY_ZONE) )
+OUTPUT=( $(aws ec2 create-volume $SIZE_ARGUMENT --availability-zone $AVAILABILITY_ZONE --output text) )
 echo ${OUTPUT[*]}
 echo
 
 # Attach the EBS Volume that was just created
 # The last value "true" is so i-attach-volume knows to format the drive if its just been created
-$(dirname $0)/i-attach-volume ${OUTPUT[5]} $DEVICE $MOUNT_POINT true
+$(dirname $0)/i-attach-volume ${OUTPUT[6]} $DEVICE $MOUNT_POINT true
