@@ -16,25 +16,24 @@ Make a copy of the scripts and execute the appropriate one.
 git clone https://github.com/stationgroup/aws-helper-scripts/
 ```
 
----
+Change directories to the scripts: `cd aws-helper-scripts/bin`
 
-`i-create-volume`
-
-Create an EBS Volume. Then call `i-attach-volume` to Attach, Format and Persistently Mount the EBS Volume
-
----
-
-`i-attach-volume`
-
-Attach, Format and Persistently Mount an EBS Volume
+```bash
+aws-helper-scripts/bin/i-create-volume /dev/xvdf /ebs none 80
+```
 
 ---
 
-`ln-mv`
+`i-create-volume` - Create an EBS Volume. Then call `i-attach-volume` to Attach, Format and Persistently Mount the EBS Volume
 
-Move a directory to an EBS volume and symlink from the original location to the EBS location. If the EBS volume already contains the directory we're trying to move to it just delete the original directory and create a symlink.
+`i-attach-volume` - Attach, Format and Persistently Mount an EBS Volume
+
+`ln-mv` - Move a directory to an EBS volume and symlink from the original location to the EBS location. If the EBS volume already contains the directory we're trying to move to it just delete the original directory and create a symlink.
 
 ---
+
+# [To-do Issues](https://github.com/stationgroup/aws-helper-scripts/issues?q=is%3Aopen+is%3Aissue+project%3Astationgroup%2Faws-helper-scripts%2F1)
+
 
 ## Credit
 
