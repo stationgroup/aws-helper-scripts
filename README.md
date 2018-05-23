@@ -3,6 +3,8 @@ A set of scripts designed to ease the pain of working with _Amazon Web Services_
 
 _If you're looking for the original version from _Sean_ it's in the [`1.x` branch](https://github.com/stationgroup/aws-helper-scripts/tree/1.x)._
 
+The script has been updated to use [`awscli`](https://aws.amazon.com/cli/) _instead_ of [`ec2-api-tools`](https://aws.amazon.com/tools/), `ec2-api-tools` had those _19_ java dependencies.
+
 ## :book: Getting Started
 
 The `awscli` that was included in your instance should be enough to get started.
