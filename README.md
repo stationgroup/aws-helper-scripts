@@ -23,6 +23,8 @@ Example usage:
 aws-helper-scripts/bin/i-create-volume /dev/xvdf /ebs none 80
 ```
 
+![](https://thumbs.gfycat.com/RichDapperBluebird-max-14mb.gif)
+
 ---
 
 `i-create-volume` - Create an EBS Volume. Then call `i-attach-volume` to Attach, Format and Persistently Mount the EBS Volume
