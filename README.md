@@ -5,7 +5,7 @@ _If you're looking for the original version from _Sean_ it's in the [`1.x` branc
 
 ## :book: Getting Started
 
-The `awscli` and `jq`  should be enough to get you started.
+The `awscli` that was included in your instance should be enough to get started.
 
 
 ## :floppy_disk: Install and Usage
