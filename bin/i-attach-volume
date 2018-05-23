@@ -58,7 +58,7 @@ if [ $? -eq 0 ]; then
   echo "Volume already formatted with $FORMAT filesystem..."
 else
   echo "Formatting the device with an $FORMAT filesystem..."
-  mkfs -t $FORMAT $INTERNAL_DEVICE_NAME
+  sudo mkfs -t $FORMAT $INTERNAL_DEVICE_NAME
   echo
 fi
 
@@ -70,7 +70,7 @@ if [ "$FSTAB_CONTENT" ]; then
   echo "$FSTAB_CONTENT"
 else
   echo "Adding mount point '$MOUNT_POINT' to '/etc/fstab'..."
-  echo "$INTERNAL_DEVICE_NAME $MOUNT_POINT ext4 noatime 0 0" >> /etc/fstab
+  sudo echo "$INTERNAL_DEVICE_NAME $MOUNT_POINT ext4 noatime 0 0" >> /etc/fstab
 fi
 
 #TODO: Add the ability to automate Volume Snapshots 
