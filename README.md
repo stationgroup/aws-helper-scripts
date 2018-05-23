@@ -33,8 +33,9 @@ aws-helper-scripts/bin/i-create-volume /dev/xvdf /ebs none 80
 
 ---
 
-# [To-do Issues](https://github.com/stationgroup/aws-helper-scripts/issues?q=is%3Aopen+is%3Aissue+project%3Astationgroup%2Faws-helper-scripts%2F1)
+# [:ballot_box_with_check: To-do Issues](https://github.com/stationgroup/aws-helper-scripts/issues?q=is%3Aopen+is%3Aissue+project%3Astationgroup%2Faws-helper-scripts%2F1)
 
+---
 
 ## Credit
 
