@@ -81,7 +81,7 @@ fi
 
 if [ ! -d "$MOUNT_POINT" ]; then 
   echo "Creating mount point $MOUNT_POINT"
-  mkdir -p $MOUNT_POINT
+  sudo mkdir -p $MOUNT_POINT
 fi
 echo "Mounting $MOUNT_POINT"
 mount $MOUNT_POINT
