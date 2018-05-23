@@ -36,7 +36,7 @@ VOLUME_ATTACHED=$(aws ec2 describe-volumes --volume-id $VOLUME_ID --query Volume
 
 # Check if volume is attached to this instance
 if [ "$VOLUME_ATTACHED" = "$INSTANCE_ID" ]; then
-  echo "Error: Volume is already atached to this instance."
+  echo "Error: Volume is already attached to this instance."
   exit 1
 
 # Check if volume is attached to another instance
